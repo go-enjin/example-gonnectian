@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>{{ .PrefixLabel }}{{ .Title }}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    {{ if .Summary }}
+    <meta name="description" content="{{ .Summary }}"/>
+    {{ end }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aui/9.4.1/aui/aui-prototyping.css" rel="stylesheet" media="all"/>
+    <script {{ if .Debug }} crossorigin="anonymous" {{ end }}
+            src="https://connect-cdn.atl-paas.net/all{{ if .Debug }}-debug{{ end }}.js"
+            {{ if .DataOptions }}data-options="{{ .DataOptions }}"{{ end }}
+            type="text/javascript"></script>
+</head>
+<body class="{{ if .BodyClass }}{{ .BodyClass }}{{ else }}aui-page-hybrid{{ end }}">
+<main id="page">
+    <header id="header" role="banner">
+        {{- .PrefixLabel -}}{{- .Title -}}
+    </header>
+    <div id="content">
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <section id="main" role="main" class="aui-page-panel-content">
+                    {{ .Content | asHTML }}
+                </section>
+            </div>
+        </div>
+    </div>
+    <footer id="footer" role="contentinfo">
+        Go-Enjin {{ .Version }} ({{ .Release }})
+    </footer>
+</main>
+</body>
+</html>
