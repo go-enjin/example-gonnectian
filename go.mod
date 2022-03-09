@@ -3,8 +3,8 @@ module github.com/go-enjin/third_party/examples/be/atlassian
 go 1.17
 
 require (
-	github.com/go-enjin/be v0.0.0-00010101000000-000000000000
-	github.com/go-enjin/third_party/features/atlassian v0.0.0-00010101000000-000000000000
+	github.com/go-enjin/be v0.0.0-20220308204746-70f9321b2598
+	github.com/go-enjin/third_party/features/atlassian v0.0.0-20220309145510-d9058d0e5da6
 )
 
 require (
@@ -17,8 +17,7 @@ require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.7.7 // indirect
 	github.com/go-chi/chi/v5 v5.0.7 // indirect
-	github.com/go-enjin/pkg/log v0.0.0-20220217214106-6a129793dbd1 // indirect
-	github.com/go-enjin/third_party/pkg/atlas-gonnect v0.0.0-00010101000000-000000000000 // indirect
+	github.com/go-enjin/third_party/pkg/atlas-gonnect v0.0.0-20220308215143-9ab27ee53b07 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.0 // indirect
@@ -72,9 +71,3 @@ require (
 	gorm.io/driver/sqlite v1.3.1 // indirect
 	gorm.io/gorm v1.23.2 // indirect
 )
-
-replace github.com/go-enjin/be => ../../../../be
-
-replace github.com/go-enjin/third_party/features/atlassian => ../../../features/atlassian
-
-replace github.com/go-enjin/third_party/pkg/atlas-gonnect => ../../../pkg/atlas-gonnect
