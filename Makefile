@@ -24,13 +24,14 @@ AG_PATH ?= ../../../pkg/atlas-gonnect
 AF_PACKAGE = github.com/go-enjin/third_party/features/atlassian
 AG_PACKAGE = github.com/go-enjin/third_party/pkg/atlas-gonnect
 
+ENJENV_BIN ?= $(shell which enjenv)
 
 DEBUG ?= false
 
 APP_NAME    ?= be-atlassian
 APP_SUMMARY ?= Atlassian Enjin
-APP_VERSION ?= $(shell enjenv git-tag --untagged v0.0.1)
-REL_VERSION ?= $(shell enjenv rel-ver)
+APP_VERSION ?= $(shell ${ENJENV_BIN} git-tag --untagged v0.0.1 2> /dev/null)
+REL_VERSION ?= $(shell ${ENJENV_BIN} rel-ver 2> /dev/null)
 ENV_PREFIX  ?= BE
 
 AC_NAME        ?= "be-atlassian"
@@ -59,7 +60,7 @@ build: LABEL=$(shell if [ "${RELEASE}" = "true" ]; then echo "Building release";
 build: OPTION=$(shell if [ "${RELEASE}" = "true" ]; then echo "--optimize"; fi)
 build:
 	@echo "${LABEL}: ${APP_VERSION}, ${REL_VERSION}"
-	@${CMD} enjenv golang build \
+	@${CMD} ${ENJENV_BIN} golang build \
 			--be-app-name "${APP_NAME}" \
 			--be-summary "${APP_SUMMARY}" \
 			--be-version "${APP_VERSION}" \
@@ -94,25 +95,28 @@ dev: run
 
 local:
 	@if [ -d "${BE_PATH}" ]; then \
-		enjenv go-local ${BE_PATH}; \
+		${CMD} ${ENJENV_BIN} go-local ${BE_PATH}; \
 	else \
 		echo "BE_PATH not set or not a directory: \"${BE_PATH}\""; \
 	fi
 	@if [ -d "${AF_PATH}" ]; then \
-		enjenv go-local ${AF_PACKAGE} ${AF_PATH}; \
+		${CMD} ${ENJENV_BIN} go-local ${AF_PACKAGE} ${AF_PATH}; \
 	else \
 		echo "AF_PATH not set or not a directory: \"${AF_PATH}\""; \
 	fi
 	@if [ -d "${AG_PATH}" ]; then \
-		enjenv go-local ${AG_PACKAGE} ${AG_PATH}; \
+		${CMD} ${ENJENV_BIN} go-local ${AG_PACKAGE} ${AG_PATH}; \
 	else \
 		echo "AG_PATH not set or not a directory: \"${AG_PATH}\""; \
 	fi
 
 unlocal:
-	@enjenv go-unlocal
-	@enjenv go-unlocal ${AF_PACKAGE}
-	@enjenv go-unlocal ${AG_PACKAGE}
+	@${CMD} ${ENJENV_BIN} go-unlocal
+	@${CMD} ${ENJENV_BIN} go-unlocal ${AF_PACKAGE}
+	@${CMD} ${ENJENV_BIN} go-unlocal ${AG_PACKAGE}
 
 tidy:
-	@go mod tidy -go=1.16 && go mod tidy -go=1.17
+	@${CMD} go mod tidy -go=1.16 && go mod tidy -go=1.17
+
+be-update:
+	@${CMD} GOPROXY=direct go get -u github.com/go-enjin/be
