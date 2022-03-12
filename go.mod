@@ -3,7 +3,7 @@ module github.com/go-enjin/third_party/examples/be/atlassian
 go 1.17
 
 require (
-	github.com/go-enjin/be v0.0.0-20220312164405-6561611fceb8
+	github.com/go-enjin/be v0.0.0-20220312215905-a847b8388eaa
 	github.com/go-enjin/third_party/features/atlassian v0.0.0-20220309145510-d9058d0e5da6
 )
 
