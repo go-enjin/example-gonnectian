@@ -3,7 +3,7 @@ module github.com/go-enjin/third_party/examples/be/atlassian
 go 1.17
 
 require (
-	github.com/go-enjin/be v0.0.0-20220312215905-a847b8388eaa
+	github.com/go-enjin/be v0.0.0-20220314000533-cbe91ae18fa1
 	github.com/go-enjin/third_party/features/atlassian v0.0.0-20220309145510-d9058d0e5da6
 )
 
@@ -59,7 +59,7 @@ require (
 	github.com/urfave/cli/v2 v2.3.0 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2 // indirect
 	github.com/yookoala/realpath v1.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20220312131142-6068a2e6cfdc // indirect
+	golang.org/x/crypto v0.0.0-20220313003712-b769efc7c000 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5 // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
