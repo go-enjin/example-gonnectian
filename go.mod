@@ -3,8 +3,8 @@ module github.com/go-enjin/third_party/examples/be/atlassian
 go 1.17
 
 require (
-	github.com/go-enjin/be v0.0.0-20220314000533-cbe91ae18fa1
-	github.com/go-enjin/third_party/features/atlassian v0.0.0-20220309145510-d9058d0e5da6
+	github.com/go-enjin/be v0.0.0-20220317193321-35f0bbd43f2d
+	github.com/go-enjin/third_party/features/atlassian v0.0.0-20220317200559-543690ae8ffe
 )
 
 require (
@@ -17,7 +17,7 @@ require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.7.7 // indirect
 	github.com/go-chi/chi/v5 v5.0.7 // indirect
-	github.com/go-enjin/third_party/pkg/atlas-gonnect v0.0.0-20220308215143-9ab27ee53b07 // indirect
+	github.com/go-enjin/third_party/pkg/atlas-gonnect v0.0.0-20220317200559-543690ae8ffe // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.1 // indirect
@@ -36,7 +36,7 @@ require (
 	github.com/jackc/pgtype v1.10.0 // indirect
 	github.com/jackc/pgx/v4 v4.15.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.4 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.15.1 // indirect
 	github.com/leekchan/gtf v0.0.0-20190214083521-5fba33c5b00b // indirect
@@ -56,12 +56,12 @@ require (
 	github.com/signalsciences/ac v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
-	github.com/urfave/cli/v2 v2.3.0 // indirect
+	github.com/urfave/cli/v2 v2.4.0 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2 // indirect
 	github.com/yookoala/realpath v1.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20220313003712-b769efc7c000 // indirect
+	golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
-	golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5 // indirect
+	golang.org/x/sys v0.0.0-20220317061510-51cd9980dadf // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
