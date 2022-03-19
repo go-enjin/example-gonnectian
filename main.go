@@ -45,7 +45,7 @@ the value of a context variable set at compile-time: "{{ .CustomVariable }}".</p
 		AddPageFromString("/", homepage).
 		AddFeature(database.New().Make()).
 		AddFeature(
-			atlassian.New().
+			atlassian.New("v1", "v1", "V1").
 				ProfileBaseRoute("v1").
 				AddGeneralPageFromString(
 					"example",
