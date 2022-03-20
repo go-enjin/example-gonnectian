@@ -17,6 +17,8 @@
 #: uncomment to echo instead of execute
 #CMD=echo
 
+SHELL = /bin/bash
+
 BE_PATH ?= ../../../../be
 AF_PATH ?= ../../../features/atlassian
 AG_PATH ?= ../../../pkg/atlas-gonnect
@@ -45,10 +47,16 @@ BUILD_TAGS = locals,database,atlassian
 
 RELEASE = ""
 
-.PHONY: all help clean build dev release run
+.PHONY: all help clean dist-clean build dev release run _enjenv
+
+_enjenv:
+	@if [ ! -x "${ENJENV_BIN}" ]; then \
+		echo "enjenv not found"; \
+		false; \
+	fi
 
 help:
-	@echo "usage: make <help|clean|build|dev|release|run>"
+	@echo "usage: make <help|clean|dist-clean|build|dev|release|run>"
 
 clean:
 	@if [ -f "${APP_NAME}" ]; then rm -fv "${APP_NAME}"; fi
@@ -93,7 +101,7 @@ run:
 dev: DEBUG=true
 dev: run
 
-local:
+local: _enjenv
 	@if [ -d "${BE_PATH}" ]; then \
 		${CMD} ${ENJENV_BIN} go-local ${BE_PATH}; \
 	else \
@@ -110,7 +118,7 @@ local:
 		echo "AG_PATH not set or not a directory: \"${AG_PATH}\""; \
 	fi
 
-unlocal:
+unlocal: _enjenv
 	@${CMD} ${ENJENV_BIN} go-unlocal
 	@${CMD} ${ENJENV_BIN} go-unlocal ${AF_PACKAGE}
 	@${CMD} ${ENJENV_BIN} go-unlocal ${AG_PACKAGE}
@@ -118,5 +126,5 @@ unlocal:
 tidy:
 	@${CMD} go mod tidy -go=1.16 && go mod tidy -go=1.17
 
-be-update:
+be-update: _enjenv
 	@${CMD} GOPROXY=direct go get -u github.com/go-enjin/be
