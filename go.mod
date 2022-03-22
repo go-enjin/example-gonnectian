@@ -3,8 +3,8 @@ module github.com/go-enjin/third_party/examples/be/atlassian
 go 1.17
 
 require (
-	github.com/go-enjin/be v0.0.0-20220319172344-59bb2e4e6136
-	github.com/go-enjin/third_party/features/atlassian v0.0.0-20220317200559-543690ae8ffe
+	github.com/go-enjin/be v0.0.0-20220322160247-935ba4723e61
+	github.com/go-enjin/third_party/features/atlassian v0.0.0-20220320163720-11b8347c80c7
 )
 
 require (
@@ -17,7 +17,7 @@ require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.7.7 // indirect
 	github.com/go-chi/chi/v5 v5.0.7 // indirect
-	github.com/go-enjin/third_party/pkg/atlas-gonnect v0.0.0-20220317200559-543690ae8ffe // indirect
+	github.com/go-enjin/third_party/pkg/atlas-gonnect v0.0.0-20220320163720-11b8347c80c7 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.1 // indirect
@@ -59,12 +59,12 @@ require (
 	github.com/urfave/cli/v2 v2.4.0 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2 // indirect
 	github.com/yookoala/realpath v1.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd // indirect
+	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
+	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	gorm.io/driver/mysql v1.3.2 // indirect
@@ -72,3 +72,7 @@ require (
 	gorm.io/driver/sqlite v1.3.1 // indirect
 	gorm.io/gorm v1.23.3 // indirect
 )
+
+replace github.com/go-enjin/third_party/features/atlassian => ../../../features/atlassian
+
+replace github.com/go-enjin/third_party/pkg/atlas-gonnect => ../../../pkg/atlas-gonnect
