@@ -17,7 +17,7 @@
 #: uncomment to echo instead of execute
 #CMD=echo
 
-ENJIN_MK_VERSION = v0.1.0
+ENJIN_MK_VERSION = v0.1.1
 
 SHELL = /bin/bash
 
@@ -42,6 +42,7 @@ CLEAN      ?= ${APP_NAME}
 DIST_CLEAN ?=
 
 GOLANG ?= 1.17.7
+GO_MOD ?= 1017
 NODEJS ?=
 
 RELEASE_BUILD ?= false
@@ -144,7 +145,14 @@ $(shell \
 endef
 
 define _validate_extra_pkgs =
-$(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$(shell if [ "$($(key)_GO_PACKAGE)" == "" -o "$($(key)_LOCAL_PATH)" == "" -o ! -d "$($(key)_LOCAL_PATH)" ]; then echo "echo \"# $(key)_GO_PACKAGE and/or $(key)_LOCAL_PATH not found\"; false"; fi)))
+$(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$(shell \
+	if [ "$($(key)_GO_PACKAGE)" == "" \
+			-o "$($(key)_LOCAL_PATH)" == "" \
+			-o ! -d "$($(key)_LOCAL_PATH)" ]; \
+	then \
+		echo "echo \"# $(key)_GO_PACKAGE and/or $(key)_LOCAL_PATH not found\"; false;"; \
+	fi \
+)))
 endef
 
 define _make_go_local =
@@ -157,7 +165,7 @@ $(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$($(key)_GO_PACKAGE)),)
 endef
 
 define _make_extra_locals =
-$(call _validate_extra_pkgs); \
+$(call _validate_extra_pkgs) \
 $(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$(call _make_go_local,$($(key)_GO_PACKAGE),$($(key)_LOCAL_PATH));))
 endef
 
@@ -297,8 +305,8 @@ endif
 	@echo
 	@echo "helper targets:"
 	@echo "  help          this screen of output"
-	@echo "  tidy          run go mod tidy -go=1.16 && -go=1.17"
-	@echo "  local         add go mod -replace for ${GO_ENJIN_PKG}"
+	@echo "  tidy          run go mod tidy"
+	@echo "  local         go mod -replace for ${GO_ENJIN_PKG}"
 	@echo "  unlocal       go mod -dropreplace for ${GO_ENJIN_PKG}"
 	@echo "  be-update     go clean and get -u ${GO_ENJIN_PKG}"
 ifneq ($(call _list_package_json),)
@@ -395,10 +403,15 @@ _nodejs: _enjenv
 	fi
 
 tidy: _golang
-	@echo "# go mod tidy -go=1.16 && go mod tidy -go=1.17"
-	@source "${ENJENV_PATH}/activate" \
-		&& ${CMD} go mod tidy -go=1.16 \
-		&& ${CMD} go mod tidy -go=1.17
+	@if [ ${GO_MOD} -le 1017 ]; then \
+		echo "# go mod tidy -go=1.16 && go mod tidy -go=1.17"; \
+		source "${ENJENV_PATH}/activate" \
+			&& ${CMD} go mod tidy -go=1.16 \
+			&& ${CMD} go mod tidy -go=1.17; \
+	else \
+		echo "# go mod tidy"; \
+		source "${ENJENV_PATH}/activate" && go mod tidy; \
+	fi
 
 local: _golang
 	@$(call _make_extra_locals)
@@ -446,12 +459,15 @@ else
 			$(call _build_args) \
 			-- -v $(call _build_tags)
 	@if [ -x "./${APP_NAME}" ]; then \
+		echo "# produced: ${APP_NAME}"; \
 		sha256sum ./${APP_NAME}; \
 	fi
 endif
 
 release: RELEASE_BUILD="true"
 release: build
+
+RUN_ARGV ?=
 
 run:
 ifdef override_run
@@ -464,8 +480,11 @@ else
 	@echo "# running ${APP_NAME}"
 	@${CMD} \
 		$(call _env_run_vars) \
-		./${APP_NAME}
+		./${APP_NAME} ${RUN_ARGV}
 endif
+
+cli: RUN_ARGV ?= help console
+cli: run
 
 dev: DEBUG=true
 dev: run
