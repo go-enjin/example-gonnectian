@@ -17,7 +17,7 @@
 #: uncomment to echo instead of execute
 #CMD=echo
 
-ENJIN_MK_VERSION = v0.1.1
+ENJIN_MK_VERSION = v0.1.3
 
 SHELL = /bin/bash
 
@@ -41,8 +41,8 @@ GOPKG_KEYS ?=
 CLEAN      ?= ${APP_NAME}
 DIST_CLEAN ?=
 
-GOLANG ?= 1.17.7
-GO_MOD ?= 1017
+GOLANG ?= 1.18.5
+GO_MOD ?= 1018
 NODEJS ?=
 
 RELEASE_BUILD ?= false
@@ -156,8 +156,13 @@ $(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$(shell \
 endef
 
 define _make_go_local =
-echo "# localizing $(1)"; \
+echo "# go.mod local: $(1)"; \
 ${CMD} ${ENJENV_EXE} go-local "$(1)" "$(2)"
+endef
+
+define _make_go_unlocal =
+echo "# go.mod unlocal $(1)"; \
+${CMD} ${ENJENV_EXE} go-unlocal "$(1)"
 endef
 
 define _make_extra_pkgs =
@@ -167,6 +172,11 @@ endef
 define _make_extra_locals =
 $(call _validate_extra_pkgs) \
 $(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$(call _make_go_local,$($(key)_GO_PACKAGE),$($(key)_LOCAL_PATH));))
+endef
+
+define _make_extra_unlocals =
+$(call _validate_extra_pkgs) \
+$(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$(call _make_go_unlocal,$($(key)_GO_PACKAGE));))
 endef
 
 define _env_build_vars =
@@ -418,8 +428,8 @@ local: _golang
 	@$(call _make_go_local,${GO_ENJIN_PKG},${BE_PATH})
 
 unlocal: _golang
-	@echo "# restoring ${GO_ENJIN_PKG}"
-	@${CMD} ${ENJENV_EXE} go-unlocal
+	@$(call _make_extra_unlocals)
+	@$(call _make_go_unlocal,${GO_ENJIN_PKG})
 
 be-update: PKG_LIST = ${GO_ENJIN_PKG} $(call _make_extra_pkgs)
 be-update: _golang
@@ -469,22 +479,32 @@ release: build
 
 RUN_ARGV ?=
 
-run:
-ifdef override_run
-	@$(call override_run)
-else
+define _run =
 	@if [ ! -x "${APP_NAME}" ]; then \
 		echo "${APP_NAME} not found or not executable"; \
 		false; \
 	fi
-	@echo "# running ${APP_NAME}"
+	@echo "# running ${APP_NAME} -- ${RUN_ARGV}"
 	@${CMD} \
 		$(call _env_run_vars) \
 		./${APP_NAME} ${RUN_ARGV}
+endef
+
+run:
+ifdef override_run
+	@$(call override_run)
+else
+	@$(call _run)
 endif
 
-cli: RUN_ARGV ?= help console
-cli: run
+con-%: export CON_TAG=$(patsubst con-%,%,$@)
+con-%: export RUN_ARGV=console ${CON_TAG}
+con-%:
+ifdef override_run
+	@$(call override_run)
+else
+	@$(call _run)
+endif
 
 dev: DEBUG=true
 dev: run
