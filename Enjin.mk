@@ -17,7 +17,7 @@
 #: uncomment to echo instead of execute
 #CMD=echo
 
-ENJIN_MK_VERSION = v0.1.3
+ENJIN_MK_VERSION = v0.1.7
 
 SHELL = /bin/bash
 
@@ -36,6 +36,7 @@ DOMAIN        ?=
 DENY_DURATION ?= 86400
 
 BUILD_TAGS ?=
+DEV_BUILD_TAGS ?= ${BUILD_TAGS}
 GOPKG_KEYS ?=
 
 CLEAN      ?= ${APP_NAME}
@@ -125,15 +126,21 @@ done
 endef
 
 define _build_tags =
-$(shell if [ "${BUILD_TAGS}" != "" ]; then echo "-tags ${BUILD_TAGS}"; fi)
+$(shell if [ "${RELEASE_BUILD}" == "true" ]; then \
+		if [ "${BUILD_TAGS}" != "" ]; then \
+			echo "-tags ${BUILD_TAGS}"; \
+		fi; \
+	elif [ "${DEV_BUILD_TAGS}" != "" ]; then \
+		echo "-tags ${DEV_BUILD_TAGS}"; \
+	fi)
 endef
 
 define _build_label =
 $(shell \
 	if [ "${RELEASE_BUILD}" == "true" ]; then \
-		echo "Building release"; \
+		echo "# Building release"; \
 	else \
-		echo "Building debug"; \
+		echo "# Building debug"; \
 	fi)
 endef
 
@@ -166,7 +173,7 @@ ${CMD} ${ENJENV_EXE} go-unlocal "$(1)"
 endef
 
 define _make_extra_pkgs =
-$(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$($(key)_GO_PACKAGE)),)
+$(if ${GOPKG_KEYS},$(foreach key,${GOPKG_KEYS},$($(key)_GO_PACKAGE)@latest),)
 endef
 
 define _make_extra_locals =
@@ -431,12 +438,12 @@ unlocal: _golang
 	@$(call _make_extra_unlocals)
 	@$(call _make_go_unlocal,${GO_ENJIN_PKG})
 
-be-update: PKG_LIST = ${GO_ENJIN_PKG} $(call _make_extra_pkgs)
+be-update: PKG_LIST = ${GO_ENJIN_PKG}@latest $(call _make_extra_pkgs)
 be-update: _golang
 	@$(call _validate_extra_pkgs)
-	@echo "# go get -u ${PKG_LIST}"
+	@echo "# go get ${PKG_LIST}"
 	@source "${ENJENV_PATH}/activate" \
-		&& ${CMD} GOPROXY=direct go get -u \
+		&& ${CMD} GOPROXY=direct go get \
 			$(call _build_tags) \
 			${PKG_LIST}
 
@@ -537,3 +544,21 @@ yarn-%:
 	@$(call _yarn_tag_install,${TAG})
 	@$(call _yarn_run_script,${TAG},${OP})
 endif
+
+HEROKU_GIT_REMOTE ?= heroku
+HEROKU_SRC_BRANCH ?= trunk
+HEROKU_DST_BRANCH ?= main
+
+heroku-push:
+	@${CMD} git push ${HEROKU_GIT_REMOTE} ${HEROKU_SRC_BRANCH}:${HEROKU_DST_BRANCH}
+
+heroku-logs:
+	@${CMD} heroku logs --tail
+
+# this requires Term::ANSIColor, will error if not present,
+# use `make build dev` instead
+build-dev-run: build
+	@( make dev 2>&1 ) | perl -p -e 'use Term::ANSIColor qw(colored);while (my $$line = <>) {print STDOUT process_line($$line)."\n";}exit(0);sub process_line {my ($$line) = @_;chomp($$line);if ($$line =~ m!^\[(\d+\-\d+\.\d+)\]\s+([A-Z]+)\s+(.+?)\s*$$!) {my ($$datestamp, $$level, $$message) = ($$1, $$2, $$3);my $$colour = "white";if ($$level eq "ERROR") {$$colour = "bold white on_red";} elsif ($$level eq "INFO") {$$colour = "green";} elsif ($$level eq "DEBUG") {$$colour = "yellow";}my $$out = "[".colored($$datestamp, "blue")."]";$$out .= " ".colored($$level, $$colour);if ($$level eq "DEBUG") {$$out .= "\t";if ($$message =~ m!^(.+?)\:(\d+)\s+\[(.+?)\]\s+(.+?)\s*$$!) {my ($$file, $$ln, $$tag, $$info) = ($$1, $$2, $$3, $$4);$$out .= colored($$file, "bright_blue");$$out .= ":".colored($$ln, "blue");$$out .= " [".colored($$tag, "bright_blue")."]";$$out .= " ".colored($$info, "bold cyan");} else {$$out .= $$message;}} elsif ($$level eq "ERROR") {$$out .= "\t".colored($$message, $$colour);} elsif ($$level eq "INFO") {$$out .= "\t".colored($$message, $$colour);} else {$$out .= "\t".$$message;}return $$out;}return $$line;}'
+
+release-dev-run: release
+	@( make dev 2>&1 ) | perl -p -e 'use Term::ANSIColor qw(colored);while (my $$line = <>) {print STDOUT process_line($$line)."\n";}exit(0);sub process_line {my ($$line) = @_;chomp($$line);if ($$line =~ m!^\[(\d+\-\d+\.\d+)\]\s+([A-Z]+)\s+(.+?)\s*$$!) {my ($$datestamp, $$level, $$message) = ($$1, $$2, $$3);my $$colour = "white";if ($$level eq "ERROR") {$$colour = "bold white on_red";} elsif ($$level eq "INFO") {$$colour = "green";} elsif ($$level eq "DEBUG") {$$colour = "yellow";}my $$out = "[".colored($$datestamp, "blue")."]";$$out .= " ".colored($$level, $$colour);if ($$level eq "DEBUG") {$$out .= "\t";if ($$message =~ m!^(.+?)\:(\d+)\s+\[(.+?)\]\s+(.+?)\s*$$!) {my ($$file, $$ln, $$tag, $$info) = ($$1, $$2, $$3, $$4);$$out .= colored($$file, "bright_blue");$$out .= ":".colored($$ln, "blue");$$out .= " [".colored($$tag, "bright_blue")."]";$$out .= " ".colored($$info, "bold cyan");} else {$$out .= $$message;}} elsif ($$level eq "ERROR") {$$out .= "\t".colored($$message, $$colour);} elsif ($$level eq "INFO") {$$out .= "\t".colored($$message, $$colour);} else {$$out .= "\t".$$message;}return $$out;}return $$line;}'
