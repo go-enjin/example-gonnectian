@@ -17,10 +17,10 @@
 BE_LOCAL_PATH ?= ../../../../be
 
 AF_LOCAL_PATH = ../../../features/atlassian
-AG_LOCAL_PATH = ../../../pkg/atlas-gonnect
+AG_LOCAL_PATH = ../../../../github-com-craftamap-atlas-gonnect
 
 AF_GO_PACKAGE = github.com/go-enjin/third_party/features/atlassian
-AG_GO_PACKAGE = github.com/go-enjin/third_party/pkg/atlas-gonnect
+AG_GO_PACKAGE = github.com/go-enjin/github-com-craftamap-atlas-gonnect
 
 APP_NAME    ?= be-atlassian
 APP_SUMMARY ?= Atlassian Enjin

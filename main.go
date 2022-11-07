@@ -41,6 +41,8 @@ the value of a context variable set at compile-time: "{{ .CustomVariable }}".</p
 	enjin := be.New().
 		AddThemes("themes").
 		SetTheme("custom-theme").
+		SiteTag("AE").
+		SiteName("atlassian-example").
 		Set("CustomVariable", "not-empty").
 		AddPageFromString("/", homepage).
 		AddFeature(database.New().Make()).
