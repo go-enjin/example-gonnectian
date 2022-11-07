@@ -14,20 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-BE_LOCAL_PATH ?= ../../../../be
+BE_LOCAL_PATH ?= ../be
 
-AF_LOCAL_PATH = ../../../features/atlassian
-AG_LOCAL_PATH = ../../../../github-com-craftamap-atlas-gonnect
+AF_LOCAL_PATH = ../features-gonnectian
+AG_LOCAL_PATH = ../github-com-craftamap-atlas-gonnect
 
-AF_GO_PACKAGE = github.com/go-enjin/third_party/features/atlassian
+AF_GO_PACKAGE = github.com/go-enjin/features-gonnectian
 AG_GO_PACKAGE = github.com/go-enjin/github-com-craftamap-atlas-gonnect
 
-APP_NAME    ?= be-atlassian
-APP_SUMMARY ?= Atlassian Enjin
+APP_NAME    ?= be-gonnectian
+APP_SUMMARY ?= Gonnectian Enjin
 
-AC_NAME        ?= "be-atlassian"
-AC_KEY         ?= "com.github.go-enjin.examples.be.atlassian"
-AC_DESCRIPTION ?= "Go-Enjin\ Atlassian\ integration\ demonstration"
+AC_NAME        ?= "be-gonnectian"
+AC_KEY         ?= "github.com.go-enjin.example.gonnectian"
+AC_DESCRIPTION ?= "Go-Enjin\ Gonnectian\ integration\ demonstration"
 AC_BASE_URL    ?= "nil"
 AC_VENDOR_NAME ?= "Go-Enjin"
 AC_VENDOR_URL  ?= "https://github.com/go-enjin"
@@ -36,7 +36,7 @@ AC_VALIDATE_IP ?= false
 
 DENY_DURATION ?= 60
 
-BUILD_TAGS = locals,database,atlassian
+BUILD_TAGS = locals,database
 GOPKG_KEYS = AF AG
 
 DIST_CLEAN = .bin db.sqlite

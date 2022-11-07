@@ -1,10 +1,10 @@
-module github.com/go-enjin/third_party/examples/be/atlassian
+module github.com/go-enjin/example-gonnectian
 
 go 1.19
 
 require (
 	github.com/go-enjin/be v0.0.0-20221107181905-c1577f1de6d7
-	github.com/go-enjin/third_party/features/atlassian v0.0.0-20221107182523-3323b8a60d28
+	github.com/go-enjin/features-gonnectian v0.0.0-20221107194626-3ad0aefc86fb
 )
 
 require (
@@ -56,6 +56,7 @@ require (
 	github.com/golang/geo v0.0.0-20210211234256-740aa86cb551 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
+	github.com/gomarkdown/markdown v0.0.0-20220905174103-7b278df48cfb // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/iancoleman/strcase v0.2.0 // indirect
@@ -87,6 +88,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
 	github.com/nanmu42/gzip v1.2.0 // indirect
+	github.com/niklasfasching/go-org v1.6.5 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
 	github.com/pkg/profile v1.6.0 // indirect
@@ -98,7 +100,7 @@ require (
 	github.com/tdewolff/parse/v2 v2.6.4 // indirect
 	github.com/tg123/go-htpasswd v1.2.0 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
-	github.com/urfave/cli/v2 v2.19.2 // indirect
+	github.com/urfave/cli/v2 v2.23.4 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	github.com/yookoala/realpath v1.0.0 // indirect

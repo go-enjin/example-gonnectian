@@ -20,18 +20,23 @@ import (
 
 	"github.com/go-enjin/be"
 	"github.com/go-enjin/be/features/database"
-	"github.com/go-enjin/third_party/features/atlassian"
+	"github.com/go-enjin/be/features/pages/formats"
+	"github.com/go-enjin/be/features/pages/formats/html"
+	"github.com/go-enjin/features-gonnectian"
 )
 
 func main() {
-	homepage := `
+	homepage := `+++
+title = "Gonnectian Example"
+url = "/"
++++
 <h2>Example Content</h2>
 <p>Demonstrating adding content as a plain string with no front-matter metadata.</p>
 <p>This page is publicly accessible.</p>
 `
 	tmpl := `+++
 Format = "tmpl"
-Layout = "atlassian-connect"
+Layout = "gonnectian-connect"
 DataOptions = "sizeToParent:true"
 +++
 <p>This content is an html/template and this string should contain
@@ -42,12 +47,13 @@ the value of a context variable set at compile-time: "{{ .CustomVariable }}".</p
 		AddThemes("themes").
 		SetTheme("custom-theme").
 		SiteTag("AE").
-		SiteName("atlassian-example").
+		SiteName("gonnectian-example").
 		Set("CustomVariable", "not-empty").
 		AddPageFromString("/", homepage).
+		AddFeature(formats.New().AddFormat(html.New().Make()).Make()).
 		AddFeature(database.New().Make()).
 		AddFeature(
-			atlassian.New("v1", "v1", "V1").
+			gonnectian.New("v1", "v1", "V1").
 				ProfileBaseRoute("v1").
 				AddGeneralPageFromString(
 					"example",

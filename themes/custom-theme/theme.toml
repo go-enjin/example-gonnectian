@@ -1,9 +1,9 @@
 name = "Custom Theme"
 license = "Apache 2.0"
-licenselink = "https://go-enjin.github.io/LICENSE"
+licenselink = "https://go-enjin.org/license"
 description = "A custom theme."
-homepage = "https://go-enjin.github.io/"
+homepage = "https://github.com/go-enjin/example-gonnectian"
 
 [author]
     name = "The Go-Enjin Team"
-    homepage = "https://go-enjin.github.io"
+    homepage = "https://go-enjin.org"

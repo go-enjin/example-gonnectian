@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{ template "partials/head.tmpl" . }}
+  <body>
+    {{ template "partials/header.tmpl" . }}
+    <main>
+      {{ .Content | asHTML }}
+    </main>
+    {{ template "partials/footer.tmpl" . }}
+  </body>
+</html>
